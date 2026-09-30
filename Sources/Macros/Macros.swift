@@ -1,22 +1,14 @@
-// The macro plugin. It is a host tool: it must be built for the host
-// (arm64-apple-macosx) and loaded by the compiler while it compiles the
-// firmware targets for armv7em. One trivial freestanding expression macro,
-// `#doubled(n)`, expanding to `((n) * 2)`; its only job is to put
-// swift-syntax into the package's dependency graph.
-
 import SwiftCompilerPlugin
 import SwiftSyntax
 import SwiftSyntaxMacros
 
+/// `#doubled(n)` expands to `((n) * 2)`. Its only job is to put swift-syntax in the graph.
 public struct DoubledMacro: ExpressionMacro {
     public static func expansion(
         of node: some FreestandingMacroExpansionSyntax,
         in context: some MacroExpansionContext
     ) throws -> ExprSyntax {
-        guard let argument = node.arguments.first?.expression else {
-            fatalError("#doubled needs one argument")
-        }
-        return "((\(argument)) * 2)"
+        "((\(node.arguments.first!.expression)) * 2)"
     }
 }
 
