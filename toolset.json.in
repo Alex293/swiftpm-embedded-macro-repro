@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0",
+  "swiftCompiler": {
+    "extraCLIOptions": [
+      "-Osize",
+      "-Xfrontend", "-disable-stack-protector",
+      "-enable-experimental-feature", "Embedded",
+      "-enable-experimental-feature", "Extern",
+      "-Xclang-linker", "-nostdlib",
+      "-Xfrontend", "-function-sections",
+      "-Xfrontend", "-enable-single-module-llvm-emission",
+      "-assert-config", "Debug",
+      "-Xclang-linker", "-fuse-ld=lld"
+    ]
+  },
+  "cCompiler": {
+    "extraCLIOptions": [
+      "-nostdlib",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I@LLVM_ET@/lib/clang-runtimes/arm-none-eabi/armv7m_soft_fpv4_sp_d16_exn_rtti/include",
+      "-mthumb",
+      "-Werror",
+      "-Wall",
+      "-static",
+      "-fno-stack-protector",
+      "-fno-common"
+    ]
+  },
+  "linker": {
+    "extraCLIOptions": [
+      "-nostdlib",
+      "-T", "@ROOT@/linkerscript.ld",
+      "-L@LLVM_ET@/lib/clang-runtimes/arm-none-eabi/armv7m_soft_fpv4_sp_d16_exn_rtti/lib",
+      "-lc",
+      "-lclang_rt.builtins",
+      "-static",
+      "-e", "_start_elf",
+      "--orphan-handling=error"
+    ]
+  }
+}
